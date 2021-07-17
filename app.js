@@ -87,21 +87,21 @@ app.get("/", ensureGuest, (req, res) => {
   });
 });
 
-// description     Dashboard page
-//route     GET/dashboard
-router.get("/dashboard", ensureAuth, async (req, res) => {
-  try {
-    const stories = await Story.find({ user: req.user.id }).lean();
-    res.render("dashboard", {
-      name: req.user.firstName, //this is coming from passport.js, the logged in user
-      stories
-    });
-  } catch (err) {
-    console.log(err);
-    res.render('error/500')
-  }
-  console.log(req.user);
-});
+// // description     Dashboard page
+// //route     GET/dashboard
+// router.get("/dashboard", ensureAuth, async (req, res) => {
+//   try {
+//     const stories = await Story.find({ user: req.user.id }).lean();
+//     res.render("dashboard", {
+//       name: req.user.firstName, //this is coming from passport.js, the logged in user
+//       stories
+//     });
+//   } catch (err) {
+//     console.log(err);
+//     res.render('error/500')
+//   }
+//   console.log(req.user);
+// });
 
 
 
