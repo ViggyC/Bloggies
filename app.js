@@ -89,7 +89,7 @@ app.get("/", ensureGuest, (req, res) => {
 app.get("/dashboard", ensureAuth, async (req, res) => {
   try {
     const stories = await Story.find({ user: req.user.id }).lean();
-    res.render("dashboard", {
+    res.render("views/dashboard", {
       name: req.user.firstName, //this is coming from passport.js, the logged in user
       stories
     });
