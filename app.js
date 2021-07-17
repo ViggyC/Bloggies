@@ -105,7 +105,7 @@ app.get("/auth/google", passport.authenticate("google", { scope: ["profile"] }))
 // description     Goolge auth callback
 //route     GET/auth/google/callback
 app.get(
-  "/google/callback",
+  "/auth/google/callback",
   passport.authenticate("google", { failureRedirect: "/" }),
   (req, res) => {
     res.redirect("/dashboard");
