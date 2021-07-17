@@ -73,8 +73,11 @@ app.use(function(req,res,next){
 //Static Folders
 app.use(express.static(path.join(__dirname, "public")));
 
-//STORY ROUTE: goto /routes/stories.js
-app.use("/stories", require("./routes/stories"));
+
+// Routes
+//app.use('/', require('./routes/index'))
+app.use('/auth', require('./routes/auth'))
+app.use('/stories', require('./routes/stories'))
 
 
 //First page, login page
@@ -89,7 +92,7 @@ app.get("/", ensureGuest, (req, res) => {
 app.get("/dashboard", ensureAuth, async (req, res) => {
   try {
     const stories = await Story.find({ user: req.user.id }).lean();
-    res.render("views/dashboard", {
+    res.render("dashboard", {
       name: req.user.firstName, //this is coming from passport.js, the logged in user
       stories
     });
@@ -100,25 +103,6 @@ app.get("/dashboard", ensureAuth, async (req, res) => {
   console.log(req.user);
 });
 
-app.get("/auth/google", passport.authenticate("google", { scope: ["profile"] }));
-
-// description     Goolge auth callback
-//route     GET/auth/google/callback
-app.get(
-  "/auth/google/callback",
-  passport.authenticate("google", { failureRedirect: "/" }),
-  (req, res) => {
-    res.redirect("/dashboard");
-  }
-);
-
-
-//desc  logout user
-//route     /auth/logout
-app.get('/logout', (req,res)=>{
-    req.logout()
-    res.redirect('/')
-})
 
 
 const PORT = process.env.PORT || 3000;
