@@ -89,7 +89,7 @@ app.get("/", ensureGuest, (req, res) => {
 app.get("/dashboard", ensureAuth, async (req, res) => {
   try {
     const stories = await Story.find({ user: req.user.id }).lean();
-    res.render("views/dashboard", {
+    res.render("dashboard", {
       name: req.user.firstName, //this is coming from passport.js, the logged in user
       stories
     });
@@ -108,7 +108,7 @@ app.get(
   "/auth/google/callback",
   passport.authenticate("google", { failureRedirect: "/" }),
   (req, res) => {
-    res.redirect("views/dashboard");
+    res.redirect("/dashboard");
   }
 );
 
