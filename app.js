@@ -13,7 +13,7 @@ const MongoStore = require("connect-mongodb-session")(session);
 const connectDB = require("./config/db.js");
 
 // Load config
-dotenv.config({ path: "./config/.env" });
+dotenv.config({ path: ".env" });
 //Passport config
 require("./config/passport")(passport);
 
