@@ -8,7 +8,7 @@ const methodOverride = require('method-override')
 const passport = require("passport");
 const session = require("express-session");
 const router = express.Router();
-const { ensureAuth, ensureGuest } = require("middleware/auth");
+const { ensureAuth, ensureGuest } = require("./middleware/auth");
 const MongoStore = require("connect-mongodb-session")(session);
 const connectDB = require("./config/db.js");
 
