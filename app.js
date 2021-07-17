@@ -7,7 +7,8 @@ const exphbs = require("express-handlebars");
 const methodOverride = require('method-override')
 const passport = require("passport");
 const session = require("express-session");
-
+const router = express.Router();
+const { ensureAuth, ensureGuest } = require("../middleware/auth");
 const MongoStore = require("connect-mongodb-session")(session);
 const connectDB = require("./config/db.js");
 
@@ -76,6 +77,29 @@ app.use(express.static(path.join(__dirname, "public")));
 app.use("/", require("./routes/index"));
 app.use("/auth", require("./routes/auth"));
 app.use("/stories", require("./routes/stories"));
+
+
+router.get("/", ensureGuest, (req, res) => {
+  res.render("login", {
+    layout: "login",
+  });
+});
+
+// description     Dashboard page
+//route     GET/dashboard
+router.get("/dashboard", ensureAuth, async (req, res) => {
+  try {
+    const stories = await Story.find({ user: req.user.id }).lean();
+    res.render("dashboard", {
+      name: req.user.firstName,
+      stories
+    });
+  } catch (err) {
+    console.log(err);
+    res.render('error/500')
+  }
+  console.log(req.user);
+});
 
 const PORT = process.env.PORT || 3000;
 app.listen(
